@@ -8,8 +8,21 @@
 
     <li class="nav-item  active"><a class="nav-link" href="#">Accueil</a></li>
     <li class="nav-item  active"><a class="nav-link" href="#">Boutique</a></li>
+      <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Categories</a>
+          <ul class="dropdown-menu">
+              <li class="dropdown position-static mb-0">
+
+                  @foreach($categories as $categorie)
+                  <a class="dropdown-item py-2 border-bottom" href="home-fashion-store-v1.html">
+                      <span class="d-block text-heading">{{ $categorie->libelle }}</span>
+                  </a>
+                  @endforeach
+
+              </li>
+          </ul>
+      </li>
     <li class="nav-item  active"><a class="nav-link" href="#">Qui sommes nous</a></li>
-    
-  
+
+
   </ul>
 </div>

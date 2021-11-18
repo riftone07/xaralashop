@@ -7,4 +7,5 @@
 * composer install
 * dupliquer le fichier .env.example et le renomer en .env
 * php artisan key:generate
+*php artisan migrate --seed
 
