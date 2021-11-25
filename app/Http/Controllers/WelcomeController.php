@@ -8,15 +8,23 @@ use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
 {
+
     public function index()
     {
 
-      $categories =  Categorie::all();
-
       $produits = Produit::all();
 
-
-        return view('index',compact('categories','produits'));
+      return view('index',compact('produits'));
 
     }
+
+
+    public function showproduit($slug)
+    {
+
+     $produit =  Produit::where('slug',$slug)->first();
+
+      return view('produits.details',compact('produit',));
+    }
 }
+

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ProduitFactory extends Factory
 {
@@ -13,8 +14,10 @@ class ProduitFactory extends Factory
      */
     public function definition()
     {
+        $nom = $this->faker->sentence(3);
         return [
-            "nom" => $this->faker->sentence(3),
+            "slug" => Str::slug($nom),
+            "nom" => $nom,
             "description" => $this->faker->paragraph(),
             "prix" => rand(15000,20000),
             "quantite" => rand(10,20),

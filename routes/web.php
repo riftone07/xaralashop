@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PanierController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,12 @@ Route::get('/', function () {
 });
 Route::get('/', [WelcomeController::class, 'index']);
 
+Route::get('produits/{slug}',[WelcomeController::class,'showproduit'])->name('showproduit');
+
+
+Route::resource('panier',PanierController::class);
+
+Route::get('passer-a-la-caisse',[\App\Http\Controllers\CommandeController::class,'passeralacaisse'])->name("passeralacaisse")->middleware('auth');
 
 Auth::routes();
 
