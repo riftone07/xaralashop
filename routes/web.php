@@ -20,6 +20,9 @@ Route::get('/', function () {
     return view('index');
 
 });
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('produits/{slug}',[WelcomeController::class,'showproduit'])->name('showproduit');
@@ -29,6 +32,11 @@ Route::resource('panier',PanierController::class);
 
 Route::get('passer-a-la-caisse',[\App\Http\Controllers\CommandeController::class,'passeralacaisse'])->name("passeralacaisse")->middleware('auth');
 
-Auth::routes();
+Route::post('passer-a-la-caisse',[\App\Http\Controllers\CommandeController::class,'passeralachaisse'])->name("passeralacaisse.store")->middleware('auth');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('confirmation',[\App\Http\Controllers\CommandeController::class,'confirmation'])->name("confirmation")->middleware('auth');
+
+Route::get('paiement-en-ligne/{reference}',[\App\Http\Controllers\PaiementController::class,'index'])->name("paiementenligne.index")->middleware('auth');
+
+Route::post('paiement-en-ligne',[\App\Http\Controllers\PaiementController::class,'store'])->name("paiementenligne.store")->middleware('auth');
+

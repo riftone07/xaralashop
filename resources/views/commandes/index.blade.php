@@ -35,13 +35,24 @@
                         <div class="step-progress"><span class="step-count">5</span></div>
                         <div class="step-label"><i class="ci-check-circle"></i>Review</div></a></div>
                 <!-- Autor info-->
+                <form action="{{ route('passeralacaisse.store') }}" method="post">
+                    @csrf
 
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                @endif
                 <!-- Shipping address-->
                 <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Information de base</h2>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="mb-3">
-                            <label class="form-label" for="checkout-fn">First Name</label>
+                            <label class="form-label" for="checkout-fn">Prenom et Nom</label>
                             <input class="form-control" type="text" id="checkout-fn" value="{{ Auth::user()->name }}">
                         </div>
                     </div>
@@ -50,14 +61,14 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label" for="checkout-email">E-mail Address</label>
-                            <input class="form-control" type="email" id="checkout-email" value="{{ Auth::user()->email }}">
+                            <label class="form-label" for="checkout-email">Adresse E-mail</label>
+                            <input class="form-control" type="email" id="checkout-email" name="email" value="{{ Auth::user()->email }}">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label" for="checkout-phone">Phone Number</label>
-                            <input class="form-control" type="text" id="checkout-phone" value="{{ Auth::user()->telephone }}">
+                            <label class="form-label" for="checkout-phone">Numero téléphone</label>
+                            <input class="form-control" type="text" id="checkout-phone" name="telephone" value="{{ Auth::user()->telephone }}">
                         </div>
                     </div>
                 </div>
@@ -66,7 +77,23 @@
                     <div class="col-sm-12">
                         <div class="mb-3">
                             <label class="form-label" for="checkout-address-1">Adresse de livraison</label>
-                            <input class="form-control" type="text" id="checkout-address-1">
+                            <input class="form-control" type="text" name="adresse_de_livraison" id="checkout-address-1" value="{{ old('adresse_de_livraison') }}" required>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="type_de_paiement" id="paiement_en_ligne" value="enligne" checked>
+                            <label class="form-check-label" for="paiement_en_ligne">Paiement en ligne (<small class="text-danger">payez par orange money - wave - free money ...</small>)</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="type_de_paiement" id="inlineRadio1" value="livraison" >
+                            <label class="form-check-label" for="inlineRadio1">Paiement à la livraison</label>
                         </div>
                     </div>
 
@@ -74,55 +101,31 @@
 
                 <!-- Navigation (desktop)-->
                 <div class="d-none d-lg-flex pt-4 mt-3">
-                    <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="shop-cart.html"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
-                    <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="checkout-shipping.html"><span class="d-none d-sm-inline">Valider la commande</span><span class="d-inline d-sm-none">Next</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
+                    <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('panier.index') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Retour au panier</span><span class="d-inline d-sm-none">Back</span></a></div>
+                    <div class="w-50 ps-2">
+                        <button type="submit" class="btn btn-primary d-block w-100"><span class="d-none d-sm-inline">Valider la commande</span><span class="d-inline d-sm-none">Suivant</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></button>
+                    </div>
                 </div>
+
+                </form>
             </section>
             <!-- Sidebar-->
             <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-5">
                 <div class="bg-white rounded-3 shadow-lg p-4 ms-lg-auto">
                     <div class="py-2 px-xl-2">
                         <div class="widget mb-3">
-                            <h2 class="widget-title text-center">Order summary</h2>
+                            <h2 class="widget-title text-center">Details Commande</h2>
+                            @foreach($paniers as $panier)
                             <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/01.jpg" width="64" alt="Product"></a>
                                 <div class="ps-2">
-                                    <h6 class="widget-product-title"><a href="shop-single-v1.html">Women Colorblock Sneakers</a></h6>
-                                    <div class="widget-product-meta"><span class="text-accent me-2">$150.<small>00</small></span><span class="text-muted">x 1</span></div>
+                                    <h6 class="widget-product-title"><a href="shop-single-v1.html">{{ $panier->name }}</a></h6>
+                                    <div class="widget-product-meta"><span class="text-accent me-2">{{ format_devise($panier->price) }}</span><span class="text-muted">x {{ $panier->quantity }}</span></div>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center py-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/02.jpg" width="64" alt="Product"></a>
-                                <div class="ps-2">
-                                    <h6 class="widget-product-title"><a href="shop-single-v1.html">TH Jeans City Backpack</a></h6>
-                                    <div class="widget-product-meta"><span class="text-accent me-2">$79.<small>50</small></span><span class="text-muted">x 1</span></div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center py-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/03.jpg" width="64" alt="Product"></a>
-                                <div class="ps-2">
-                                    <h6 class="widget-product-title"><a href="shop-single-v1.html">3-Color Sun Stash Hat</a></h6>
-                                    <div class="widget-product-meta"><span class="text-accent me-2">$22.<small>50</small></span><span class="text-muted">x 1</span></div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center py-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/04.jpg" width="64" alt="Product"></a>
-                                <div class="ps-2">
-                                    <h6 class="widget-product-title"><a href="shop-single-v1.html">Cotton Polo Regular Fit</a></h6>
-                                    <div class="widget-product-meta"><span class="text-accent me-2">$9.<small>00</small></span><span class="text-muted">x 1</span></div>
-                                </div>
-                            </div>
+                            @endforeach
+
                         </div>
-                        <ul class="list-unstyled fs-sm pb-2 border-bottom">
-                            <li class="d-flex justify-content-between align-items-center"><span class="me-2">Subtotal:</span><span class="text-end">$265.<small>00</small></span></li>
-                            <li class="d-flex justify-content-between align-items-center"><span class="me-2">Shipping:</span><span class="text-end">—</span></li>
-                            <li class="d-flex justify-content-between align-items-center"><span class="me-2">Taxes:</span><span class="text-end">$9.<small>50</small></span></li>
-                            <li class="d-flex justify-content-between align-items-center"><span class="me-2">Discount:</span><span class="text-end">—</span></li>
-                        </ul>
-                        <h3 class="fw-normal text-center my-4">$274.<small>50</small></h3>
-                        <form class="needs-validation" method="post" novalidate>
-                            <div class="mb-3">
-                                <input class="form-control" type="text" placeholder="Promo code" required>
-                                <div class="invalid-feedback">Please provide promo code.</div>
-                            </div>
-                            <button class="btn btn-outline-primary d-block w-100" type="submit">Apply promo code</button>
-                        </form>
+                        <h3 class="fw-normal text-center my-4">{{ format_devise($totalpanier) }}</h3>
                     </div>
                 </div>
             </aside>
