@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Commande;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class PaiementController extends Controller
 {
@@ -23,10 +24,13 @@ class PaiementController extends Controller
             'reference' => 'required|string|max:150'
         ]);
 
+
         $commande = Commande::where('reference',$request->reference)->first();
         if (empty($commande)){
             return redirect('/');
         }
+
+        $baseUrl = "http://xarala.xeuweul.com";
 
 
         \Paydunya\Setup::setMasterKey(env("P_MasterKey"));
@@ -37,6 +41,7 @@ class PaiementController extends Controller
 
 
         //Configuration des informations de votre service/entreprise
+
         \Paydunya\Checkout\Store::setName("Xaralashop"); // Seul le nom est requis
         \Paydunya\Checkout\Store::setTagline("Boutique en ligne de xarala");
         \Paydunya\Checkout\Store::setPhoneNumber("77000000");
@@ -44,7 +49,41 @@ class PaiementController extends Controller
         \Paydunya\Checkout\Store::setWebsiteUrl("https://www.xarala.co");
         \Paydunya\Checkout\Store::setLogoUrl("https://www.xarala.co/static/img/logo.18ecbe0c3281.png");
 
+        //url de redirection
+        \Paydunya\Checkout\Store::setCancelUrl($baseUrl.'/paydunya/cancel');
+        \Paydunya\Checkout\Store::setReturnUrl($baseUrl.'/paydunya/success');
 
+        //callbackk
+      //  \Paydunya\Checkout\Store::setCallbackUrl($baseUrl.'/api/paydunya/callback');
+
+        //Creatioon de la facture
+        $invoice = new \Paydunya\Checkout\CheckoutInvoice();
+
+        $nom_invoice = "Commande #$commande->reference";
+
+        $prixunitaire = $commande->total;
+
+        $quantite = 1;
+
+        $prixtotal = $prixunitaire * $quantite;
+
+        $invoice->addItem($nom_invoice, $quantite, $prixunitaire, $prixtotal, "Commande passer sur la boutique xarala ");
+
+        //le montant que le client payera avec paydunya
+        $invoice->setTotalAmount($prixtotal);
+
+        //aajout de la reference de la commande
+
+        $invoice->addCustomData("reference_commande",$commande->reference);
+
+
+        if($invoice->create()) {
+            $url_facture = $invoice->getInvoiceUrl();
+            return Redirect::to($url_facture);
+        }else{
+            echo $invoice->response_text;
+
+        }
 
     }
 }
