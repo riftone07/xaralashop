@@ -12,7 +12,6 @@ class ResponseController extends Controller
     public function callback(Request $request)
     {
         Log::info("paiement avec paydunya test");
-return 'ok';
 
         try {
             //Prenez votre MasterKey, hashez la et comparez le résultat au hash reçu par IPN
