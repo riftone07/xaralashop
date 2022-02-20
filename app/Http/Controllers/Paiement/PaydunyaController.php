@@ -23,7 +23,7 @@ class PaydunyaController extends Controller
 
         // configuiration de paydunya
 
-        $baseUrl = "https://xaralashop.test/";
+        $baseUrl = "http://xarala.xeuweul.com/";
 
         \Paydunya\Setup::setMasterKey(env('P_MasterKey'));
         \Paydunya\Setup::setPublicKey(env("P_PublicKey_T"));
