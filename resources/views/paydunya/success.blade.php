@@ -36,19 +36,9 @@
                         <div class="step-label"><i class="ci-check-circle"></i>Review</div></a>
                 </div>
                 <!-- Autor info-->
-                <div class="card">
-                    <div class="row  align-content-center">
-                        <div class="col-lg-6">
-                            <h2>Total : {{ format_devise($commande->total) }}</h2>
-                            <img src="{{ asset('img/bouton-01.png') }}" alt="" class="img img-fluid">
-                            <form action="{{ route('paiementpaydunyaligne.store') }}" method="post">
-
-                                <input type="hidden" value="{{ $commande->reference }}" name="reference">
-                                @csrf
-                                <input type="submit" class="btn btn-danger" value="Payez maintenant">
-                            </form>
-                        </div>
-                    </div>
+                <div class="card text-center">
+                    <i class="fas fa-check-circle text-success fa-7x"></i>
+                    <h2>Paiement effectué avec success</h2>
                 </div>
             </section>
             <!-- Sidebar-->

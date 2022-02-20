@@ -1,4 +1,5 @@
 <?php
+
 return [
 
     'Paydunya_MasterKey' => env('Pay_MasterKey'),

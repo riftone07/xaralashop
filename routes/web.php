@@ -40,7 +40,13 @@ Route::get('paiement-en-ligne/{reference}',[\App\Http\Controllers\PaiementContro
 
 Route::post('paiement-en-ligne',[\App\Http\Controllers\PaiementController::class,'store'])->name("paiementenligne.store")->middleware('auth');
 
+Route::post('paiement-paydunya-ligne',[\App\Http\Controllers\Paiement\PaydunyaController::class,'store'])->name('paiementpaydunyaligne.store');
 
 Route::get('paydunya/success',[\App\Http\Controllers\ResponseController::class,'success'])->name('paydunya.success');
 
 Route::get('paydunya/cancel',[\App\Http\Controllers\ResponseController::class,'cancel'])->name('paydunya.cancel');
+
+
+Route::get('paiement/annule',[\App\Http\Controllers\Paiement\ReponseController::class,'annule']);
+
+Route::get('paiement/success',[\App\Http\Controllers\Paiement\ReponseController::class,'success']);
