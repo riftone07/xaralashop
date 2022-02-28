@@ -118,7 +118,7 @@
                             @foreach($paniers as $panier)
                             <div class="d-flex align-items-center pb-2 border-bottom"><a class="d-block flex-shrink-0" href="shop-single-v1.html"><img src="img/shop/cart/widget/01.jpg" width="64" alt="Product"></a>
                                 <div class="ps-2">
-                                    <h6 class="widget-product-title"><a href="shop-single-v1.html">{{ $panier->name }}</a></h6>
+                                    <h6 class="widget-product-title"><a href="shop-single-v1.html">{{ $panier->name }} - {{ $panier->attributes->option_id }}</a></h6>
                                     <div class="widget-product-meta"><span class="text-accent me-2">{{ format_devise($panier->price) }}</span><span class="text-muted">x {{ $panier->quantity }}</span></div>
                                 </div>
                             </div>

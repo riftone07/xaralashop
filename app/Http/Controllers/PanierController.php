@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produit;
-use Darryldecode\Cart\Cart;
+use Cart;
 use Illuminate\Http\Request;
 
 class PanierController extends Controller
@@ -45,13 +45,14 @@ class PanierController extends Controller
             return redirect()->back()->with('msg_error',"Nous avons pas cette quantité en stock; Quantité disponible : $produit->quantite ");
         }
 
-        \Cart::add(array(
+        Cart::add(array(
             'id' => $produit->id,
             'name' => $produit->nom,
             'price' => $produit->prix,
             'quantity' => $request->quantite,
             'attributes' => [
-                'image' => $produit->image
+                'image' => $produit->image,
+                'option_id' => $request->option_id
             ],
             'associatedModel' => $produit
         ));
@@ -91,7 +92,15 @@ class PanierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Cart::update($id, array(
+            'quantity' => array(
+                'relative' => false,
+                'value' => $request->quantity
+            ),
+        ));
+
+        return redirect()->route('panier.index')->with('message','Panier mis à jour avec succes');
+
     }
 
     /**

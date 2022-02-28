@@ -20,4 +20,8 @@ class Produit extends Model
         return $this->belongsToMany(Commande::class,'commande_produit');
     }
 
+    public function options()
+    {
+        return $this->belongsToMany(Option::class,'option_produit');
+    }
 }

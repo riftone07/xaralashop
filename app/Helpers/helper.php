@@ -10,3 +10,14 @@ function mettre_en_majuscule($chaine)
 {
     return strtoupper($chaine) ;
 }
+
+
+function AfficherOption($id)
+{
+    $option = \App\Models\Option::find($id);
+
+    if (empty($option)){
+        return '';
+    }
+    return $option->libelle;
+}

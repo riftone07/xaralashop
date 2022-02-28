@@ -352,5 +352,6 @@
     <script src="{{ asset('vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js') }}"></script>
     <!-- Main theme script-->
     <script src="{{ asset('js/theme.min.js') }}"></script>
+    @stack('scripts')
   </body>
 </html>

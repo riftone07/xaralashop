@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'nombredeproduit' => Cart::getTotalQuantity(),
                 'totalpanier' => Cart::getTotal(),
-                'paniers' => Cart::getContent(),
+                'paniers' => Cart::getContent()->sort(),
                 "categories_all" =>  Categorie::all()
             ]);
         });

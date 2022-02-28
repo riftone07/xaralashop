@@ -68,6 +68,14 @@
                             <form class="mb-grid-gutter" method="post" action="{{ route('panier.store') }}">
                                 @csrf
                                 <input type="hidden" value="{{ $produit->id }}" name="produit_id" >
+
+                                @if($produit->options->count() > 0)
+                                <select name="option_id" id="" class="form-control mb-1">
+                                    @foreach($produit->options as $option)
+                                    <option value="{{ $option->libelle }}">{{ $option->libelle }}</option>
+                                    @endforeach
+                                </select>
+                                @endif
                                 <div class="mb-3 d-flex align-items-center">
                                     <select class="form-select me-3" style="width: 5rem;" name="quantite">
                                         <option value="1">1</option>

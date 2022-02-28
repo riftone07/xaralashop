@@ -8,8 +8,8 @@
               <div class="card-body">
                 <h2 class="h4 mb-1">Incrivez-vous</h2>
                 <div class="py-3">
-                 
-               
+
+
                 <hr>
                 <h3 class="fs-base pt-4 pb-2">Ou bien </h3>
                 <form method="POST" action="{{ route('register') }}">
@@ -22,6 +22,20 @@
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone" class="col-md-4 col-form-label text-md-right">{{ __('Telephone') }}</label>
+
+                            <div class="col-md-12">
+                                <input id="telephone" type="number" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="{{ old('telephone') }}" required autocomplete="telephone" autofocus>
+
+                                @error('telephone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -76,7 +90,7 @@
               </div>
             </div>
           </div>
-          
+
       </div>
 
 @endsection

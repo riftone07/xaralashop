@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Commande;
 use App\Models\Produit;
+use App\Models\User;
+use App\Notifications\NouvelCommande;
 use Illuminate\Http\Request;
 use Cart;
 use Auth;
+use Illuminate\Support\Facades\Notification;
 
 class CommandeController extends Controller
 {
@@ -39,7 +42,11 @@ class CommandeController extends Controller
         foreach ($paniers as $panier){
 
             $commande->produits()->attach($panier->id,
-                ['quantite' => $panier->quantity, 'prix' => $panier->price]
+                [
+                    'quantite' => $panier->quantity,
+                    'prix' => $panier->price,
+                    'option' => $panier->attributes->option_id,
+                ]
             );
 
             $produit = Produit::find($panier->id);
@@ -51,7 +58,9 @@ class CommandeController extends Controller
         Cart::clear();
 
         if ($request->type_de_paiement == "livraison"){
-            // Notification a l'administrateur du site
+
+            $admin = User::where('role','admin')->get();
+            Notification::send($admin, new NouvelCommande());
 
             return redirect()->route('confirmation');
         }else{

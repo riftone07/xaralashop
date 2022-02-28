@@ -70,10 +70,14 @@
                             </div>
                         </div>
                     </form>
+
               </div>
+                <div class="card-footer">
+                  Vous n'avez pas de compte ?  <a href="{{ route('register') }}">Creez un ic en quelque clic</a>
+                </div>
             </div>
           </div>
-          
+
       </div>
 
 @endsection
