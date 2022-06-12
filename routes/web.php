@@ -50,3 +50,6 @@ Route::get('paydunya/cancel',[\App\Http\Controllers\ResponseController::class,'c
 Route::get('paiement/annule',[\App\Http\Controllers\Paiement\ReponseController::class,'annule']);
 
 Route::get('paiement/success',[\App\Http\Controllers\Paiement\ReponseController::class,'success']);
+
+
+Route::view('/powergrid', 'powergrid-demo');

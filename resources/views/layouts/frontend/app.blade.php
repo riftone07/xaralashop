@@ -138,16 +138,38 @@
         <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
         <div class="navbar-sticky bg-light">
           <div class="navbar navbar-expand-lg navbar-light">
-            <div class="container"><a class="navbar-brand d-none d-sm-block flex-shrink-0" href="index.html"><img src="img/logo-dark.png" width="142" alt="Cartzilla"></a><a class="navbar-brand d-sm-none flex-shrink-0 me-2" href="index.html"><img src="img/logo-icon.png" width="74" alt="Cartzilla"></a>
+            <div class="container">
+                <a class="navbar-brand d-none d-sm-block flex-shrink-0" href="{{ url('/') }}">
+                    <img src="{{ asset('img/logo.png') }}" width="142" alt="Logo xarala shop">
+                </a><a class="navbar-brand d-sm-none flex-shrink-0 me-2" href="{{ url('/') }}">
+                    <img src="{{ asset('img/logo.png') }}" width="74" alt="Logo xaralshop">
+                </a>
               <div class="input-group d-none d-lg-flex mx-4">
                 <input class="form-control rounded-end pe-5" type="text" placeholder="Search for products"><i class="ci-search position-absolute top-50 end-0 translate-middle-y text-muted fs-base me-3"></i>
               </div>
               <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button><a class="navbar-tool navbar-stuck-toggler" href="#"><span class="navbar-tool-tooltip">Expand menu</span>
                   <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-menu"></i></div></a><a class="navbar-tool d-none d-lg-flex" href="account-wishlist.html"><span class="navbar-tool-tooltip">Wishlist</span>
-                  <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-heart"></i></div></a><a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="#signin-modal" data-bs-toggle="modal">
+                  <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-heart"></i></div></a>
+                  @guest()
+                  <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="">
                   <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
-                  <div class="navbar-tool-text ms-n3"><small>Hello, Sign in</small>My Account</div></a>
+
+                      <div class="navbar-tool-text ms-n3">
+                      <small>Hello, Sign in</small>My Account
+                  </div>
+
+                  </a>
+                  @else
+                      @if(Auth::user()->role == "admin")
+                      <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="{{ route('admin') }}">
+                          <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
+                          <div class="navbar-tool-text ms-n3">
+                              <small>Bienvenue</small>{{ Auth::user()->name }}
+                          </div>
+                      </a>
+                      @endif
+                  @endguest
                 <div class="navbar-tool dropdown ms-3">
                     @if($nombredeproduit)
                     <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="shop-cart.html">

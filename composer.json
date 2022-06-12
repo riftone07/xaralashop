@@ -14,9 +14,13 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
-        "paydunya/paydunya": "^1.0"
+        "livewire/livewire": "^2.10",
+        "paydunya/paydunya": "^1.0",
+        "power-components/livewire-powergrid": "^2.4",
+        "spatie/laravel-medialibrary": "^9.0.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/lang": "^10.4",
